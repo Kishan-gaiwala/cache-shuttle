@@ -6,6 +6,11 @@
     "engines": {
         "node": ">=14.0.0"
     },
+    "files": [
+        "lib",
+        "README.md",
+        "LICENSE"
+    ],
     "keywords": [
         "cache",
         "redis",
