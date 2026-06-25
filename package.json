@@ -1,11 +1,12 @@
 {
-    "name": "cache-shuttle",
-    "version": "1.0.0",
+    "name": "@kishangai/cache-shuttle",
+    "version": "1.0.1",
     "description": "A production-grade bridge framework to securely dual-write, read-through, and migrate records among conflicting storage cache providers seamlessly.",
     "main": "lib/index.js",
     "engines": {
         "node": ">=14.0.0"
     },
+    "homepage": "",
     "files": [
         "lib",
         "README.md",
@@ -24,6 +25,6 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/kishangaiwala/cache-shuttle.git"
+        "url": "git+https://github.com/Kishan-gaiwala/cache-shuttle"
     }
 }
