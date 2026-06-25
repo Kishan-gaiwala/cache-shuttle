@@ -1,0 +1,24 @@
+{
+    "name": "cache-shuttle",
+    "version": "1.0.0",
+    "description": "A production-grade bridge framework to securely dual-write, read-through, and migrate records among conflicting storage cache providers seamlessly.",
+    "main": "lib/index.js",
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "keywords": [
+        "cache",
+        "redis",
+        "node-cache",
+        "migration",
+        "data-transfer",
+        "synchronization",
+        "read-through"
+    ],
+    "author": "Kishan Gaiwala <gaiwalakishan@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kishangaiwala/cache-shuttle.git"
+    }
+}
