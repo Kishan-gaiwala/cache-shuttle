@@ -1,48 +1,52 @@
-// Local import mock setup
 const CacheShuttle = require('../lib/index.js');
 
-// Mock data store instances representing separate structural environments
-const mockInProcessMemoryStore = new Map();
-const mockRemoteRedisServer = new Map();
+async function runDemo() {
+  console.log("⚡ Initiating In-Memory Cache Shuttle Demo...\n");
 
-// --- 1. Craft structural interface adapters for input endpoints ---
-const memoryStoreAdapter = {
-  getKeys: async () => Array.from(mockInProcessMemoryStore.keys()),
-  get: async (key) => mockInProcessMemoryStore.get(key),
-  set: async (key, value) => { mockInProcessMemoryStore.set(key, value); }
-};
-
-const upstreamDatabaseAdapter = {
-  get: async (key) => {
-    const lookupString = mockRemoteRedisServer.get(key);
-    return lookupString ? JSON.parse(lookupString) : null;
-  },
-  set: async (key, value) => {
-    // Structural safety step: Converts complex objects into safe network transmission strings
-    const serializedValue = typeof value === 'object' ? JSON.stringify(value) : value;
-    mockRemoteRedisServer.set(key, serializedValue);
-  }
-};
-
-// --- 2. Instantiate and run your engine safely ---
-async function runValidationAudit() {
-  console.log("⚡ Initiating Local Cache Shuttle Pipeline...");
-
-  const shuttleInstance = new CacheShuttle({
-    source: memoryStoreAdapter,
-    target: upstreamDatabaseAdapter,
-    batchSize: 50
+  // Initialize CacheShuttle with a 1-second background sweep interval
+  const cache = new CacheShuttle({
+    sweepInterval: 1000,
+    enableBackgroundSweep: true
   });
 
-  // Hydrate fake origin values
-  mockInProcessMemoryStore.set("session_user_01", { identity: "Alice", active: true });
-  mockInProcessMemoryStore.set("session_user_02", { identity: "Bob", active: false });
+  // 1. Store basic data
+  console.log("✏️ Setting basic keys...");
+  cache.set('user:session:1', { name: 'Alice', role: 'admin' });
+  cache.set('user:session:2', { name: 'Bob', role: 'user' });
 
-  // Execute operational flight checklist
-  const auditReport = await shuttleInstance.transferAll();
+  console.log("🔍 Fetching keys:");
+  console.log("  user:session:1 ->", cache.get('user:session:1'));
+  console.log("  user:session:2 ->", cache.get('user:session:2'));
 
-  console.log("\n🏁 Operational Lifecycle Completed successfully.");
-  console.log("Summary Metrics:", auditReport);
+  // 2. Store data with a Time-To-Live (TTL) of 500ms
+  console.log("\n⏳ Setting key 'temp_token' with a 500ms TTL...");
+  cache.set('temp_token', 'xyz-abc-123', 500);
+
+  // Retrieve immediately
+  console.log("  Immediate fetch ->", cache.get('temp_token')); // should be "xyz-abc-123"
+
+  // Wait 600ms and retrieve again (passive expiration check)
+  console.log("  Waiting 600ms...");
+  await new Promise(resolve => setTimeout(resolve, 600));
+  console.log("  Fetch after wait ->", cache.get('temp_token')); // should be null
+
+  // 3. Demonstrate active background sweeping
+  console.log("\n🧹 Demonstrating background sweep...");
+  cache.set('sweep_target', 'expiring-data', 200); // expires in 200ms
+  
+  // Verify it exists in map
+  console.log("  Is in Map initially?", cache.cache.has('sweep_target'));
+
+  // Wait 1.2s (long enough for the 1s background sweep interval to run)
+  console.log("  Waiting 1.2 seconds for background sweep to run...");
+  await new Promise(resolve => setTimeout(resolve, 1200));
+
+  // The key should have been actively deleted by the background sweeper
+  console.log("  Is in Map after sweep?", cache.cache.has('sweep_target')); // should be false
+
+  // Clean shutdown
+  cache.destroy();
+  console.log("\n🏁 Demo completed successfully.");
 }
 
-runValidationAudit();
+runDemo();

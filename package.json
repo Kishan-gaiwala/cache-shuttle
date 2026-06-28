@@ -1,10 +1,13 @@
 {
-    "name": "@kishangai/cache-shuttle",
-    "version": "1.0.1",
-    "description": "A production-grade bridge framework to securely dual-write, read-through, and migrate records among conflicting storage cache providers seamlessly.",
+    "name": "js-cache-shuttle",
+    "version": "1.1.0",
+    "description": "A production-grade, zero-dependency caching toolkit for Node.js with in-memory TTL cache, background sweep, dual-write, read-through, and batch migration across storage providers.",
     "main": "lib/index.js",
     "engines": {
         "node": ">=14.0.0"
+    },
+    "scripts": {
+        "test": "node test.js"
     },
     "homepage": "",
     "files": [
@@ -14,17 +17,20 @@
     ],
     "keywords": [
         "cache",
+        "in-memory",
+        "ttl",
         "redis",
         "node-cache",
         "migration",
         "data-transfer",
         "synchronization",
-        "read-through"
+        "read-through",
+        "background-sweep"
     ],
     "author": "Kishan Gaiwala <gaiwalakishan@gmail.com>",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Kishan-gaiwala/cache-shuttle"
+        "url": "git+https://github.com/Kishan-gaiwala/cache-shuttle.git"
     }
 }
