@@ -2,6 +2,8 @@
 
 A production-grade, zero-dependency caching toolkit for Node.js — featuring a blazing-fast in-memory cache with TTL, automatic background cleanup, and a powerful bridge mode to dual-write, read-through, and migrate data across storage providers without downtime.
 
+https://medium.com/@kishangaiwala487/introducing-js-cache-shuttle-a-lightweight-fast-in-memory-cache-for-node-js-cfc9fd4768bc?postPublishedType=repub
+
 ## Key Features
 
 * ⚡ **In-Memory Cache:** Lightning-fast key-value store built on native `Map` with zero dependencies.
